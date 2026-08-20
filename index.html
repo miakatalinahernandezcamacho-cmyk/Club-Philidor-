@@ -1,11 +1,1075 @@
+# HTML completo - Club Filidor
+
+```html
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Mi Club de Ajedrez</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Club Filidor | Escuela de Ajedrez</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            background: #ffffff;
+            color: #171717;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --vino: #7b1830;
+            --vino-oscuro: #4d0d1c;
+            --negro: #111111;
+            --blanco: #ffffff;
+            --gris: #f4f4f4;
+        }
+
+        /* =========================
+           BARRA DE NAVEGACIÓN
+        ========================== */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--negro);
+            padding: 15px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo-text span {
+            color: #c52d52;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #c52d52;
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 88vh;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(123,24,48,0.25), transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(123,24,48,0.25), transparent 25%),
+                linear-gradient(135deg, #111111, #2b0a14);
+
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(50px, 8vw, 90px);
+            line-height: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #c52d52;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--vino);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 8px;
+            transition: 0.3s;
+            box-shadow: 0 7px 0 var(--vino-oscuro);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            background: #a52140;
+        }
+
+        .btn-blanco {
+            background: white;
+            color: var(--negro);
+            box-shadow: 0 7px 0 #cfcfcf;
+        }
+
+        .btn-blanco:hover {
+            background: #eeeeee;
+        }
+
+        /* PIEZAS DECORATIVAS */
+
+        .pieza {
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.12;
+            animation: flotar 5s ease-in-out infinite;
+        }
+
+        .pieza1 {
+            top: 10%;
+            left: 5%;
+        }
+
+        .pieza2 {
+            top: 18%;
+            right: 8%;
+            animation-delay: 1s;
+        }
+
+        .pieza3 {
+            bottom: 10%;
+            left: 12%;
+            animation-delay: 2s;
+        }
+
+        .pieza4 {
+            bottom: 8%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        @keyframes flotar {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* =========================
+           SECCIONES
+        ========================== */
+
+        section {
+            padding: 80px 7%;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .titulo h2 {
+            font-size: 42px;
+            color: var(--vino);
+            margin-bottom: 12px;
+        }
+
+        .titulo p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        /* =========================
+           SOBRE NOSOTROS
+        ========================== */
+
+        .sobre {
+            background: var(--gris);
+        }
+
+        .sobre-contenido {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .texto-sobre h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .texto-sobre p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            border: 8px solid var(--negro);
+            box-shadow: 12px 12px 0 var(--vino);
+        }
+
+        .casilla {
+            aspect-ratio: 1;
+        }
+
+        .casilla:nth-child(odd) {
+            background: white;
+        }
+
+        .casilla:nth-child(even) {
+            background: var(--vino);
+        }
+
+        /* =========================
+           APRENDIZAJE
+        ========================== */
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 3px solid #eeeeee;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-10px) rotate(1deg);
+            border-color: var(--vino);
+        }
+
+        .tarjeta .icono {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta h3 {
+            color: var(--vino);
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .tarjeta p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           HORARIOS
+        ========================== */
+
+        .horarios {
+            background: var(--negro);
+            color: white;
+        }
+
+        .horarios .titulo p {
+            color: #ddd;
+        }
+
+        .horarios-box {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            color: #111;
+            border-radius: 25px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 12px 12px 0 var(--vino);
+        }
+
+        .horarios-box h3 {
+            color: var(--vino);
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        .dia {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px;
+            margin: 10px 0;
+            background: #f4f4f4;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .hora {
+            color: var(--vino);
+        }
+
+        /* =========================
+           ENTRENADORES
+        ========================== */
+
+        .entrenadores {
+            background: white;
+        }
+
+        .entrenadores-grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .entrenador {
+            padding: 35px;
+            border-radius: 25px;
+            background: var(--gris);
+            text-align: center;
+            border-bottom: 8px solid var(--vino);
+            transition: 0.3s;
+        }
+
+        .entrenador:hover {
+            transform: translateY(-8px);
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--vino);
+            color: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .entrenador h3 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .entrenador p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           CONTACTO
+        ========================== */
+
+        .contacto {
+            background: var(--vino);
+            color: white;
+            text-align: center;
+        }
+
+        .contacto .titulo h2 {
+            color: white;
+        }
+
+        .contacto .titulo p {
+            color: #f4dfe4;
+        }
+
+        .contacto-box {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            color: #111;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 10px 10px 0 var(--negro);
+        }
+
+        .contacto-item {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .contacto-item strong {
+            color: var(--vino);
+        }
+
+        /* =========================
+           FRASE FINAL
+        ========================== */
+
+        .frase {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .frase h2 {
+            font-size: 38px;
+            color: #c52d52;
+            margin-bottom: 15px;
+        }
+
+        .frase p {
+            font-size: 20px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #080808;
+            color: #aaa;
+            text-align: center;
+            padding: 25px;
+        }
+
+        footer span {
+            color: #c52d52;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            nav ul {
+                gap: 12px;
+            }
+
+            .tarjetas {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sobre-contenido {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+
+            .hero h1 {
+                font-size: 55px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .titulo h2 {
+                font-size: 32px;
+            }
+
+            .tarjetas {
+                grid-template-columns: 1fr;
+            }
+
+            .entrenadores-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .horarios-box,
+            .contacto-box {
+                padding: 25px 18px;
+            }
+
+            .dia {
+                flex-direction: column;
+                gap: 7px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>♟️ Bienvenidos a mi Club de Ajedrez</h1>
-    <p>Aprende, juega y mejora tu ajedrez.</p>
+
+    <!-- =========================
+         NAVEGACIÓN
+    ========================== -->
+
+    <nav>
+
+        <div class="logo-text">
+            ♟ <span>FILIDOR</span>
+        </div>
+
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#club">El Club</a></li>
+            <li><a href="#aprender">Aprende</a></li>
+            <li><a href="#horarios">Horarios</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- =========================
+         INICIO
+    ========================== -->
+
+    <header class="hero" id="inicio">
+
+        <div class="pieza pieza1">♟</div>
+        <div class="pieza pieza2">♞</div>
+        <div class="pieza pieza3">♜</div>
+        <div class="pieza pieza4">♛</div>
+
+        <div class="hero-content">
+
+            <h1>
+                CLUB <span>FILIDOR</span>
+            </h1>
+
+            <p>
+                ♟ Aprende ajedrez, desarrolla tu mente
+                y disfruta cada partida. ♟
+            </p>
+
+            <p>
+                Un espacio para niños, jóvenes y amantes
+                del ajedrez.
+            </p>
+
+            <a href="#club" class="btn">
+                ♟ Conoce nuestro club
+            </a>
+
+            <a href="#contacto" class="btn btn-blanco">
+                ¡Quiero aprender!
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         SOBRE EL CLUB
+    ========================== -->
+
+    <section class="sobre" id="club">
+
+        <div class="titulo">
+
+            <h2>♕ Bienvenidos a Filidor ♕</h2>
+
+            <p>
+                Donde cada movimiento cuenta
+            </p>
+
+        </div>
+
+
+        <div class="sobre-contenido">
+
+            <div class="texto-sobre">
+
+                <h3>
+                    Más que un juego... ¡es una aventura!
+                </h3>
+
+                <p>
+                    En el Club Filidor buscamos que los niños
+                    y jóvenes aprendan ajedrez de una manera
+                    divertida, dinámica y educativa.
+                </p>
+
+                <br>
+
+                <p>
+                    Aquí podrás aprender estrategias,
+                    mejorar tu concentración, desarrollar
+                    tu pensamiento lógico y, sobre todo,
+                    disfrutar de cada partida.
+                </p>
+
+            </div>
+
+
+            <div class="tablero">
+
+                <!-- Tablero decorativo -->
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+                <div class="casilla"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         APRENDIZAJE
+    ========================== -->
+
+    <section id="aprender">
+
+        <div class="titulo">
+
+            <h2>♟ ¿Qué aprenderás?</h2>
+
+            <p>
+                ¡Conviértete en un jugador cada vez más fuerte!
+            </p>
+
+        </div>
+
+
+        <div class="tarjetas">
+
+            <div class="tarjeta">
+
+                <div class="icono">♟</div>
+
+                <h3>Movimientos</h3>
+
+                <p>
+                    Aprende cómo se mueve cada pieza
+                    y descubre todos sus secretos.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">♞</div>
+
+                <h3>Táctica</h3>
+
+                <p>
+                    Descubre combinaciones, ataques,
+                    defensas y tácticas sorprendentes.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">♜</div>
+
+                <h3>Estrategia</h3>
+
+                <p>
+                    Aprende a crear planes y pensar
+                    varios movimientos por adelantado.
+                </p>
+
+            </div>
+
+
+            <div class="tarjeta">
+
+                <div class="icono">♛</div>
+
+                <h3>Competencia</h3>
+
+                <p>
+                    Prepárate para torneos y disfruta
+                    la emoción de competir.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         HORARIOS
+    ========================== -->
+
+    <section class="horarios" id="horarios">
+
+        <div class="titulo">
+
+            <h2>♜ Horarios de clases</h2>
+
+            <p>
+                ¡Es hora de mover las piezas!
+            </p>
+
+        </div>
+
+
+        <div class="horarios-box">
+
+            <h3>
+                Clases de Ajedrez
+            </h3>
+
+            <div class="dia">
+
+                <span>📅 Lunes</span>
+
+                <span class="hora">
+                    3:00 PM en adelante
+                </span>
+
+            </div>
+
+
+            <div class="dia">
+
+                <span>📅 Miércoles</span>
+
+                <span class="hora">
+                    3:00 PM en adelante
+                </span>
+
+            </div>
+
+
+            <div class="dia">
+
+                <span>📅 Viernes</span>
+
+                <span class="hora">
+                    3:00 PM en adelante
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ENTRENADORES
+    ========================== -->
+
+    <section class="entrenadores">
+
+        <div class="titulo">
+
+            <h2>♕ Nuestros entrenadores</h2>
+
+            <p>
+                Personas que te acompañarán en cada movimiento.
+            </p>
+
+        </div>
+
+
+        <div class="entrenadores-grid">
+
+            <div class="entrenador">
+
+                <div class="avatar">
+                    ♕
+                </div>
+
+                <h3>
+                    Entrenadora
+                </h3>
+
+                <p>
+                    Entrenadora de ajedrez dedicada
+                    a acompañar el aprendizaje y
+                    crecimiento de nuestros estudiantes.
+                </p>
+
+            </div>
+
+
+            <div class="entrenador">
+
+                <div class="avatar">
+                    ♞
+                </div>
+
+                <h3>
+                    Entrenador
+                </h3>
+
+                <p>
+                    Formación y acompañamiento
+                    para jugadores que quieren
+                    mejorar sus habilidades.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FRASE
+    ========================== -->
+
+    <section class="frase">
+
+        <h2>
+            "Cada partida es una nueva aventura."
+        </h2>
+
+        <p>
+            ♟ Piensa • Juega • Aprende • ¡Crece! ♟
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACTO
+    ========================== -->
+
+    # Sección de entrenadores actualizada
+
+```html
+<section class="entrenadores">
+
+    <div class="titulo">
+
+
+        <h2>♕ Nuestros entrenadores ♕</h2>
+
+        <p>
+            Personas que te acompañarán en cada movimiento.
+        </p>
+
+    </div>
+
+
+    <div class="entrenadores-grid">
+
+        <!-- ENTRENADORA -->
+
+        <div class="entrenador">
+
+            <div class="avatar">
+                ♕
+            </div>
+
+            <h3>
+                Entrenadora María del Carmen Camacho
+            </h3>
+
+            <p>
+                Entrenadora de ajedrez dedicada a acompañar
+                el aprendizaje y crecimiento de nuestros
+                estudiantes.
+            </p>
+
+        </div>
+
+
+        <!-- ENTRENADOR -->
+
+        <div class="entrenador">
+
+            <div class="avatar">
+                ♞
+            </div>
+
+            <h3>
+                Entrenador Jhon Alexander Morales
+            </h3>
+
+            <p>
+                Entrenador de ajedrez con experiencia en la
+                formación de jugadores, orientando a niños
+                y jóvenes para desarrollar sus habilidades,
+                estrategia y pasión por el ajedrez.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+```
+
+
+            </div>
+
+
+            <div class="contacto-item">
+
+                📍 <strong>Ubicación:</strong>
+
+                <br>
+
+                Coliseo Cubierto Carlos Alberto
+                Bejarano Castillo,
+                Yumbo, Valle del Cauca.
+
+            </div>
+
+
+            <a href="https://wa.me/573122359995"
+               class="btn"
+               target="_blank">
+
+                💬 Escríbenos por WhatsApp
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        ♟ <span>CLUB FILIDOR</span> ♟
+
+        <br><br>
+
+        Aprende. Juega. Piensa. Crece.
+
+        <br><br>
+
+        © 2026 Club Filidor de Ajedrez
+
+    </footer>
+
+
 </body>
 </html>
+```
